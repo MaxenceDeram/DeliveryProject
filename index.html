@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SafeHome — Qualité de l'air intérieur</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=Fraunces:ital,wght@0,300;0,600;0,700;1,300;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     AUTH SCREEN
+══════════════════════════════════════ -->
+<div id="auth-screen">
+
+  <!-- Left decorative panel -->
+  <div class="auth-left">
+    <div class="auth-left-inner">
+      <img src="logo.png" alt="SafeHome" class="auth-logo">
+      <div class="auth-tagline">
+        <h2>Respirez mieux,<br><em>vivez mieux.</em></h2>
+        <p>Surveillez en temps réel la qualité de l'air de votre domicile et recevez des alertes personnalisées.</p>
+      </div>
+      <div class="auth-features">
+        <div class="auth-feature"><span class="af-icon">💨</span><span>CO₂, PM2.5, Humidité, Température</span></div>
+        <div class="auth-feature"><span class="af-icon">🔔</span><span>Alertes en temps réel basées sur les normes OMS</span></div>
+        <div class="auth-feature"><span class="af-icon">📊</span><span>Historique et rapports détaillés</span></div>
+        <div class="auth-feature"><span class="af-icon">🔒</span><span>Données chiffrées et confidentielles</span></div>
+      </div>
+      <div class="auth-left-globe">
+        <div class="auth-globe-ring">
+          <div class="auth-globe-inner">
+            <div style="font-size:36px;line-height:1;">😊</div>
+            <div style="font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--good);margin-top:2px;">Excellent</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right form panel -->
+  <div class="auth-right">
+    <div class="auth-form-wrap">
+
+      <!-- Mode toggle -->
+      <div class="auth-mode-toggle">
+        <button class="auth-mode-btn active" id="btn-login" onclick="showLogin()">Connexion</button>
+        <button class="auth-mode-btn" id="btn-register" onclick="showRegister()">Créer un compte</button>
+      </div>
+
+      <!-- ── LOGIN FORM ── -->
+      <form id="form-login" class="auth-form" novalidate>
+        <div class="auth-form-title">
+          <h1>Bon retour 👋</h1>
+          <p>Connectez-vous à votre espace SafeHome</p>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="login-email">Adresse email</label>
+          <div class="field-input-wrap">
+            <span class="field-icon">✉️</span>
+            <input class="field-input" type="email" id="login-email" placeholder="marie@exemple.com" autocomplete="email">
+          </div>
+          <div class="field-error" id="login-email-err"></div>
+        </div>
+
+        <div class="field-group">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <label class="field-label" for="login-password">Mot de passe</label>
+            <span class="auth-link" onclick="showForgot()">Mot de passe oublié ?</span>
+          </div>
+          <div class="field-input-wrap">
+            <span class="field-icon">🔒</span>
+            <input class="field-input" type="password" id="login-password" placeholder="Votre mot de passe" autocomplete="current-password">
+            <button type="button" class="field-eye" onclick="togglePassword('login-password',this)">👁</button>
+          </div>
+          <div class="field-error" id="login-password-err"></div>
+        </div>
+
+        <div class="field-check-row">
+          <label class="field-check">
+            <input type="checkbox" id="login-remember">
+            <span class="check-box"></span>
+            <span>Se souvenir de moi</span>
+          </label>
+        </div>
+
+        <div class="auth-global-error" id="login-global-err"></div>
+
+        <button type="submit" class="auth-submit-btn" id="login-submit-btn">
+          <span class="btn-label">Se connecter</span>
+          <span class="btn-loader" style="display:none;">⏳</span>
+        </button>
+
+        <div class="auth-divider"><span>ou continuer avec</span></div>
+
+        <div class="auth-socials">
+          <button type="button" class="social-btn" onclick="socialLogin('Google')">
+            <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>
+            Google
+          </button>
+          <button type="button" class="social-btn" onclick="socialLogin('Apple')">
+            <svg width="16" height="18" viewBox="0 0 14 17" fill="currentColor"><path d="M13.4 13.2c-.3.7-.6 1.3-1.1 1.9-.6.8-1.1 1.3-1.7 1.4-.5.1-1-.1-1.6-.4-.6-.3-1.1-.4-1.7-.4-.6 0-1.2.1-1.7.4-.5.3-1 .5-1.6.4-.6-.1-1.1-.6-1.7-1.4C1.7 14.5 1.3 13.7.9 12.7.5 11.6.3 10.6.3 9.6c0-1.2.3-2.2.8-3.1.4-.7 1-1.2 1.7-1.6.7-.4 1.5-.6 2.3-.6.6 0 1.3.2 2 .5.7.3 1.1.5 1.4.5.2 0 .7-.2 1.5-.5.8-.3 1.4-.5 2-.4.7.1 1.3.3 1.8.7.5.4.9.9 1.2 1.5-.6.4-1.1.9-1.4 1.5-.3.6-.5 1.2-.5 1.9 0 .8.2 1.5.6 2.1.4.6.9 1 1.5 1.2zM9.9.3C9.9 1 9.7 1.7 9.2 2.4c-.5.7-1.1 1.2-1.9 1.1 0-.7.2-1.4.6-2 .4-.6 1-.1.6-1.5.6-.5-.4-1 0-.7-.5.3-.5.8-.5 1.2 0 .8-.2.3-.5z"/></svg>
+            Apple
+          </button>
+        </div>
+
+        <p class="auth-switch-text">Pas encore de compte ? <span class="auth-link" onclick="showRegister()">Créer un compte</span></p>
+      </form>
+
+      <!-- ── REGISTER FORM ── -->
+      <form id="form-register" class="auth-form" style="display:none;" novalidate>
+        <div class="auth-form-title">
+          <h1>Créer un compte 🌿</h1>
+          <p>Rejoignez SafeHome et respirez mieux dès aujourd'hui</p>
+        </div>
+
+        <div class="fields-row">
+          <div class="field-group">
+            <label class="field-label" for="reg-firstname">Prénom</label>
+            <div class="field-input-wrap">
+              <span class="field-icon">👤</span>
+              <input class="field-input" type="text" id="reg-firstname" placeholder="Marie" autocomplete="given-name">
+            </div>
+            <div class="field-error" id="reg-firstname-err"></div>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="reg-lastname">Nom</label>
+            <div class="field-input-wrap">
+              <span class="field-icon">👤</span>
+              <input class="field-input" type="text" id="reg-lastname" placeholder="Dubois" autocomplete="family-name">
+            </div>
+            <div class="field-error" id="reg-lastname-err"></div>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="reg-email">Adresse email</label>
+          <div class="field-input-wrap">
+            <span class="field-icon">✉️</span>
+            <input class="field-input" type="email" id="reg-email" placeholder="marie@exemple.com" autocomplete="email">
+          </div>
+          <div class="field-error" id="reg-email-err"></div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="reg-password">Mot de passe</label>
+          <div class="field-input-wrap">
+            <span class="field-icon">🔒</span>
+            <input class="field-input" type="password" id="reg-password" placeholder="Minimum 8 caractères" autocomplete="new-password" oninput="checkPasswordStrength(this.value)">
+            <button type="button" class="field-eye" onclick="togglePassword('reg-password',this)">👁</button>
+          </div>
+          <div class="field-error" id="reg-password-err"></div>
+          <!-- Password strength -->
+          <div class="pw-strength" id="pw-strength">
+            <div class="pw-bars">
+              <div class="pw-bar" id="pw-b1"></div>
+              <div class="pw-bar" id="pw-b2"></div>
+              <div class="pw-bar" id="pw-b3"></div>
+              <div class="pw-bar" id="pw-b4"></div>
+            </div>
+            <span class="pw-label" id="pw-label">Entrez un mot de passe</span>
+          </div>
+          <div class="pw-rules" id="pw-rules">
+            <div class="pw-rule" id="rule-length"><span class="rule-dot"></span> 8 caractères minimum</div>
+            <div class="pw-rule" id="rule-upper"><span class="rule-dot"></span> Une majuscule</div>
+            <div class="pw-rule" id="rule-number"><span class="rule-dot"></span> Un chiffre</div>
+            <div class="pw-rule" id="rule-special"><span class="rule-dot"></span> Un caractère spécial (!@#$...)</div>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="reg-confirm">Confirmer le mot de passe</label>
+          <div class="field-input-wrap">
+            <span class="field-icon">🔒</span>
+            <input class="field-input" type="password" id="reg-confirm" placeholder="Répétez le mot de passe" autocomplete="new-password">
+            <button type="button" class="field-eye" onclick="togglePassword('reg-confirm',this)">👁</button>
+          </div>
+          <div class="field-error" id="reg-confirm-err"></div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="reg-phone">Téléphone <span style="color:var(--muted);font-weight:400;">(optionnel)</span></label>
+          <div class="field-input-wrap">
+            <span class="field-icon">📱</span>
+            <input class="field-input" type="tel" id="reg-phone" placeholder="+33 6 12 34 56 78" autocomplete="tel">
+          </div>
+          <div class="field-error" id="reg-phone-err"></div>
+        </div>
+
+        <div class="field-check-row" style="flex-direction:column;gap:10px;align-items:flex-start;">
+          <label class="field-check">
+            <input type="checkbox" id="reg-cgu">
+            <span class="check-box"></span>
+            <span>J'accepte les <span class="auth-link">Conditions générales d'utilisation</span> et la <span class="auth-link">Politique de confidentialité</span></span>
+          </label>
+          <label class="field-check">
+            <input type="checkbox" id="reg-newsletter">
+            <span class="check-box"></span>
+            <span>Recevoir les conseils et actualités SafeHome</span>
+          </label>
+        </div>
+
+        <div class="auth-global-error" id="reg-global-err"></div>
+
+        <button type="submit" class="auth-submit-btn" id="reg-submit-btn">
+          <span class="btn-label">Créer mon compte</span>
+          <span class="btn-loader" style="display:none;">⏳</span>
+        </button>
+
+        <p class="auth-switch-text">Déjà un compte ? <span class="auth-link" onclick="showLogin()">Se connecter</span></p>
+      </form>
+
+      <!-- ── FORGOT PASSWORD FORM ── -->
+      <form id="form-forgot" class="auth-form" style="display:none;" novalidate>
+        <button type="button" class="auth-back" onclick="showLogin()">← Retour</button>
+        <div class="auth-form-title">
+          <h1>Mot de passe oublié 🔑</h1>
+          <p>Entrez votre email pour recevoir un lien de réinitialisation</p>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="forgot-email">Adresse email</label>
+          <div class="field-input-wrap">
+            <span class="field-icon">✉️</span>
+            <input class="field-input" type="email" id="forgot-email" placeholder="marie@exemple.com">
+          </div>
+          <div class="field-error" id="forgot-email-err"></div>
+        </div>
+        <div class="auth-global-error" id="forgot-global-err"></div>
+        <button type="submit" class="auth-submit-btn">
+          <span class="btn-label">Envoyer le lien</span>
+          <span class="btn-loader" style="display:none;">⏳</span>
+        </button>
+      </form>
+
+      <!-- ── SUCCESS STATE ── -->
+      <div id="auth-success" style="display:none;" class="auth-success-wrap">
+        <div class="auth-success-icon">✅</div>
+        <h2>Compte créé avec succès !</h2>
+        <p>Un email de confirmation a été envoyé à <strong id="success-email"></strong></p>
+        <p style="margin-top:8px;font-size:13px;color:var(--muted);">Vérifiez votre boîte de réception et cliquez sur le lien pour activer votre compte.</p>
+        <button class="auth-submit-btn" style="margin-top:28px;" onclick="enterApp()">Accéder au tableau de bord →</button>
+      </div>
+
+    </div><!-- /auth-form-wrap -->
+  </div><!-- /auth-right -->
+
+</div><!-- /auth-screen -->
+
+<!-- ══ APP WRAPPER (hidden until logged in) ══ -->
+<div id="app-wrapper" style="display:none;">
+
+<!-- ══ NAV ══ -->
+<nav id="nav">
+  <div class="nav-logo">
+    <img src="logo.png" alt="SafeHome" class="logo-img">
+  </div>
+  <div class="nav-pills">
+    <button class="nav-pill active" data-tab="dashboard">Tableau de bord</button>
+    <button class="nav-pill" data-tab="history">Historique</button>
+    <button class="nav-pill" data-tab="alerts">Alertes <span class="pill-badge" id="alert-count-badge">1</span></button>
+    <button class="nav-pill" data-tab="settings">Paramètres</button>
+  </div>
+  <div class="nav-right">
+    <button class="btn-icon" id="darkToggle" title="Mode sombre">🌙</button>
+    <button class="btn-icon" title="Notifications">
+      🔔<span class="notif-badge"></span>
+    </button>
+    <div class="nav-avatar">M</div>
+  </div>
+</nav>
+
+<main>
+
+<!-- ══════════════════════════════════════
+     TAB — TABLEAU DE BORD
+══════════════════════════════════════ -->
+<div class="tab-content active" id="tab-dashboard">
+
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-live"><div class="live-dot"></div> 3 capteurs actifs · Mis à jour il y a 30s</div>
+      <h1>Votre air<br><em>demande attention</em></h1>
+      <p class="hero-sub">1 capteur sur 3 signale une qualité dégradée.</p>
+      <div class="hero-counters">
+        <div><div class="hc-val c-good">1</div><div class="hc-lbl">Excellent</div></div>
+        <div><div class="hc-val c-medium">1</div><div class="hc-lbl">Moyen</div></div>
+        <div><div class="hc-val c-bad">1</div><div class="hc-lbl">Mauvais</div></div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="globe-ring">
+        <div class="globe-inner">
+          <div class="globe-emoji">😟</div>
+          <div class="globe-status">Moyen</div>
+        </div>
+      </div>
+      <div class="score-wrap">
+        <div class="score-lbl"><span>Indice global</span><strong>68 / 100</strong></div>
+        <div class="score-track"><div class="score-fill"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert-banner" onclick="openModal('bureau-alert')">
+    <div class="alert-banner-icon">🚨</div>
+    <div class="alert-banner-body">
+      <div class="alert-banner-title">CO₂ élevé détecté — Bureau</div>
+      <div class="alert-banner-sub">1200 ppm · Seuil OMS dépassé de 20% · Aérez dès que possible</div>
+    </div>
+    <button class="alert-banner-btn">Voir les conseils</button>
+  </div>
+
+  <div class="section-header"><h2>Paramètres en temps réel</h2></div>
+  <div class="metrics-grid">
+    <div class="metric-card st-bad" onclick="openModal('co2')">
+      <div class="m-trend up-bad">↑ +8%</div>
+      <div class="m-icon">💨</div>
+      <div class="m-label">CO₂</div>
+      <div class="m-val">1200 <small>ppm</small></div>
+      <div class="m-chip">⚠ Mauvais</div>
+      <div class="oms-bar-wrap">
+        <div class="oms-bar-lbls"><span>0</span><span>OMS 1000</span><span>2000</span></div>
+        <div class="oms-bar-track"><div class="oms-bar-fill" style="width:60%"></div></div>
+      </div>
+    </div>
+    <div class="metric-card st-medium" onclick="openModal('pm25')">
+      <div class="m-trend stable">→ stable</div>
+      <div class="m-icon">🌫️</div>
+      <div class="m-label">PM2.5</div>
+      <div class="m-val">10.8 <small>µg/m³</small></div>
+      <div class="m-chip">~ Vigilance</div>
+      <div class="oms-bar-wrap">
+        <div class="oms-bar-lbls"><span>0</span><span>OMS 5</span><span>25</span></div>
+        <div class="oms-bar-track"><div class="oms-bar-fill" style="width:43%"></div></div>
+      </div>
+    </div>
+    <div class="metric-card st-medium" onclick="openModal('humidity')">
+      <div class="m-trend up-bad">↑ +3%</div>
+      <div class="m-icon">💧</div>
+      <div class="m-label">Humidité</div>
+      <div class="m-val">63 <small>%</small></div>
+      <div class="m-chip">~ Élevée</div>
+      <div class="oms-bar-wrap">
+        <div class="oms-bar-lbls"><span>0%</span><span>40–60%</span><span>100%</span></div>
+        <div class="oms-bar-track"><div class="oms-bar-fill" style="width:63%"></div></div>
+      </div>
+    </div>
+    <div class="metric-card st-good" onclick="openModal('temp')">
+      <div class="m-trend down-good">↓ -1°C</div>
+      <div class="m-icon">🌡️</div>
+      <div class="m-label">Température</div>
+      <div class="m-val">24.5 <small>°C</small></div>
+      <div class="m-chip">✓ Bon</div>
+      <div class="oms-bar-wrap">
+        <div class="oms-bar-lbls"><span>10°C</span><span>19–23°C</span><span>35°C</span></div>
+        <div class="oms-bar-track"><div class="oms-bar-fill" style="width:58%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-block">
+    <div class="chart-top">
+      <div class="chart-title">Évolution CO₂ — Bureau</div>
+      <div class="time-tabs">
+        <button class="time-tab active" onclick="setDashTab(this,'24h')">24h</button>
+        <button class="time-tab" onclick="setDashTab(this,'7j')">7j</button>
+        <button class="time-tab" onclick="setDashTab(this,'30j')">30j</button>
+      </div>
+    </div>
+    <div class="chart-svg-wrap">
+      <svg class="chart-svg" id="svg-dash" viewBox="0 0 800 130" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="grad-dash" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#dc2626" stop-opacity="0.22"/>
+            <stop offset="100%" stop-color="#dc2626" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <!-- OMS threshold line -->
+        <line id="thresh-line" x1="0" y1="65" x2="800" y2="65" stroke="#ea580c" stroke-dasharray="6,4" stroke-width="1.5" opacity="0.7"/>
+        <text x="6" y="60" fill="#ea580c" font-size="11" font-family="DM Sans,sans-serif" font-weight="600">OMS 1000 ppm</text>
+        <path id="area-dash" fill="url(#grad-dash)"/>
+        <path id="line-dash" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="chart-xaxis" id="xaxis-dash"></div>
+  </div>
+
+  <div class="section-header"><h2>Mes capteurs</h2><span class="link-btn" onclick="switchTab('settings')">Gérer →</span></div>
+  <div class="sensors-grid">
+    <div class="sensor-card" onclick="openModal('chambre')">
+      <div class="sensor-head">
+        <div><div class="sensor-name">🛏️ Chambre</div><div class="sensor-meta">Pièce 1 · 18 m² · SH-001</div></div>
+        <div class="status-pill st-good">Excellent</div>
+      </div>
+      <div class="sensor-params">
+        <div class="sensor-param"><span class="p-label">CO₂</span><div class="p-track"><div class="p-fill st-good" style="width:51%"></div></div><span class="p-val">510 ppm</span></div>
+        <div class="sensor-param"><span class="p-label">PM2.5</span><div class="p-track"><div class="p-fill st-good" style="width:35%"></div></div><span class="p-val">3.5 µg/m³</span></div>
+        <div class="sensor-param"><span class="p-label">Humidité</span><div class="p-track"><div class="p-fill st-good" style="width:52%"></div></div><span class="p-val">52%</span></div>
+        <div class="sensor-param"><span class="p-label">Temp.</span><div class="p-track"><div class="p-fill st-good" style="width:55%"></div></div><span class="p-val">21.5 °C</span></div>
+      </div>
+      <div class="sensor-foot"><span class="sensor-time">🔋 82% · Il y a 1 min</span><span class="sensor-emoji">😊</span></div>
+    </div>
+    <div class="sensor-card" onclick="openModal('bureau')">
+      <div class="sensor-head">
+        <div><div class="sensor-name">💻 Bureau</div><div class="sensor-meta">Pièce 2 · 12 m² · SH-002</div></div>
+        <div class="status-pill st-bad">Mauvais</div>
+      </div>
+      <div class="sensor-params">
+        <div class="sensor-param"><span class="p-label">CO₂</span><div class="p-track"><div class="p-fill st-bad" style="width:92%"></div></div><span class="p-val">1200 ppm</span></div>
+        <div class="sensor-param"><span class="p-label">PM2.5</span><div class="p-track"><div class="p-fill st-medium" style="width:68%"></div></div><span class="p-val">10.8 µg/m³</span></div>
+        <div class="sensor-param"><span class="p-label">Humidité</span><div class="p-track"><div class="p-fill st-medium" style="width:63%"></div></div><span class="p-val">63%</span></div>
+        <div class="sensor-param"><span class="p-label">Temp.</span><div class="p-track"><div class="p-fill st-good" style="width:58%"></div></div><span class="p-val">24.5 °C</span></div>
+      </div>
+      <div class="sensor-foot"><span class="sensor-time">🔋 67% · Il y a 30 sec</span><span class="sensor-emoji">😟</span></div>
+    </div>
+    <div class="sensor-card" onclick="openModal('salon')">
+      <div class="sensor-head">
+        <div><div class="sensor-name">🛋️ Salon</div><div class="sensor-meta">Pièce 3 · 30 m² · SH-003</div></div>
+        <div class="status-pill st-medium">Moyen</div>
+      </div>
+      <div class="sensor-params">
+        <div class="sensor-param"><span class="p-label">CO₂</span><div class="p-track"><div class="p-fill st-medium" style="width:82%"></div></div><span class="p-val">850 ppm</span></div>
+        <div class="sensor-param"><span class="p-label">PM2.5</span><div class="p-track"><div class="p-fill st-medium" style="width:55%"></div></div><span class="p-val">5.5 µg/m³</span></div>
+        <div class="sensor-param"><span class="p-label">Humidité</span><div class="p-track"><div class="p-fill st-good" style="width:55%"></div></div><span class="p-val">55%</span></div>
+        <div class="sensor-param"><span class="p-label">Temp.</span><div class="p-track"><div class="p-fill st-good" style="width:52%"></div></div><span class="p-val">22.0 °C</span></div>
+      </div>
+      <div class="sensor-foot"><span class="sensor-time">🔋 41% · Il y a 2 min</span><span class="sensor-emoji">😐</span></div>
+    </div>
+  </div>
+
+  <div class="section-header" style="margin-top:8px;"><h2>Recommandations</h2></div>
+  <div class="reco-grid">
+    <div class="reco-card urgent">
+      <div class="reco-emoji">🪟</div>
+      <div class="reco-title">Aérez le bureau maintenant</div>
+      <div class="reco-desc">Ouvrez les fenêtres 10–15 min pour faire descendre le CO₂ sous 1000 ppm.</div>
+      <div class="reco-tag t-bad">Prioritaire</div>
+    </div>
+    <div class="reco-card">
+      <div class="reco-emoji">🌿</div>
+      <div class="reco-title">Plantes dépolluantes</div>
+      <div class="reco-desc">Pothos, ficus ou fougère de Boston absorbent les particules fines et régulent l'humidité.</div>
+      <div class="reco-tag">Long terme</div>
+    </div>
+    <div class="reco-card">
+      <div class="reco-emoji">🍳</div>
+      <div class="reco-title">Activez la hotte lors de la cuisson</div>
+      <div class="reco-desc">La cuisson génère des PM2.5. La hotte aspirante réduit jusqu'à 70% des particules émises.</div>
+      <div class="reco-tag">Prévention</div>
+    </div>
+  </div>
+
+</div><!-- /dashboard -->
+
+
+<!-- ══════════════════════════════════════
+     TAB — HISTORIQUE
+══════════════════════════════════════ -->
+<div class="tab-content" id="tab-history">
+  <div class="page-header">
+    <h1 class="page-title">Historique</h1>
+    <button class="btn-outline" onclick="alert('Export CSV généré !')">⬇ Exporter CSV</button>
+  </div>
+
+  <div class="filter-row">
+    <button class="filter-btn active" data-metric="co2">💨 CO₂</button>
+    <button class="filter-btn" data-metric="pm25">🌫️ PM2.5</button>
+    <button class="filter-btn" data-metric="humidity">💧 Humidité</button>
+    <button class="filter-btn" data-metric="temp">🌡️ Température</button>
+  </div>
+
+  <div class="chart-block">
+    <div class="chart-top">
+      <div class="chart-title" id="hist-chart-title">CO₂ — 7 derniers jours</div>
+      <div class="time-tabs">
+        <button class="time-tab active" onclick="setHistPeriod(this,'7j')">7j</button>
+        <button class="time-tab" onclick="setHistPeriod(this,'30j')">30j</button>
+        <button class="time-tab" onclick="setHistPeriod(this,'3m')">3 mois</button>
+      </div>
+    </div>
+    <div class="chart-svg-wrap">
+      <svg class="chart-svg" id="svg-hist" viewBox="0 0 800 130" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="grad-hist" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#2563eb" stop-opacity="0.2"/>
+            <stop offset="100%" stop-color="#2563eb" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <line id="hist-thresh-line" x1="0" y1="60" x2="800" y2="60" stroke="#ea580c" stroke-dasharray="6,4" stroke-width="1.5" opacity="0.6"/>
+        <text id="hist-thresh-label" x="6" y="55" fill="#ea580c" font-size="11" font-family="DM Sans,sans-serif" font-weight="600"></text>
+        <path id="area-hist" fill="url(#grad-hist)"/>
+        <path id="line-hist" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="chart-xaxis" id="xaxis-hist"></div>
+  </div>
+
+  <div class="stats-strip">
+    <div class="stat-card"><div class="stat-label">Moyenne</div><div class="stat-val" id="s-avg">—</div></div>
+    <div class="stat-card"><div class="stat-label">Maximum</div><div class="stat-val c-bad" id="s-max">—</div></div>
+    <div class="stat-card"><div class="stat-label">Minimum</div><div class="stat-val c-good" id="s-min">—</div></div>
+    <div class="stat-card"><div class="stat-label">Dépassements OMS</div><div class="stat-val c-bad" id="s-thresh">—</div></div>
+  </div>
+
+  <div class="section-header"><h2>Journal des mesures</h2></div>
+  <div class="journal-block">
+    <div class="journal-cols">
+      <span>Heure</span><span>Pièce</span><span>CO₂</span><span>PM2.5</span><span>Humidité</span><span>Temp.</span><span>État</span>
+    </div>
+    <div id="journal-body"></div>
+  </div>
+</div><!-- /history -->
+
+
+<!-- ══════════════════════════════════════
+     TAB — ALERTES
+══════════════════════════════════════ -->
+<div class="tab-content" id="tab-alerts">
+  <div class="page-header">
+    <h1 class="page-title">Alertes</h1>
+    <div class="alerts-meta">
+      <span class="meta-badge bg-bad" id="active-count-label">1 active</span>
+      <span class="meta-badge bg-muted">3 résolues</span>
+    </div>
+  </div>
+
+  <div class="section-label">Alertes récentes</div>
+  <div class="alerts-list" id="alerts-list">
+
+    <div class="alert-row is-active" data-id="a1">
+      <div class="alert-row-left">
+        <div class="a-icon-box bg-bad">🚨</div>
+        <div>
+          <div class="alert-row-title">CO₂ — Bureau</div>
+          <div class="alert-row-meta">Aujourd'hui · 14:32 · 1200 ppm · +20% au-dessus du seuil OMS</div>
+        </div>
+      </div>
+      <div class="alert-row-right">
+        <span class="row-status active">Active</span>
+        <button class="btn-dismiss" onclick="dismissAlert(this)">Ignorer</button>
+      </div>
+    </div>
+
+    <div class="alert-row" data-id="a2">
+      <div class="alert-row-left">
+        <div class="a-icon-box bg-medium">⚠️</div>
+        <div>
+          <div class="alert-row-title">Humidité — Salon</div>
+          <div class="alert-row-meta">Hier · 22:15 · 67% · Plage recommandée dépassée</div>
+        </div>
+      </div>
+      <div class="alert-row-right">
+        <span class="row-status resolved">Résolue</span>
+      </div>
+    </div>
+
+    <div class="alert-row" data-id="a3">
+      <div class="alert-row-left">
+        <div class="a-icon-box bg-bad">🚨</div>
+        <div>
+          <div class="alert-row-title">PM2.5 — Bureau</div>
+          <div class="alert-row-meta">Il y a 2 jours · 15:41 · 12.3 µg/m³ · 2.5× seuil OMS</div>
+        </div>
+      </div>
+      <div class="alert-row-right">
+        <span class="row-status resolved">Résolue</span>
+      </div>
+    </div>
+
+    <div class="alert-row" data-id="a4">
+      <div class="alert-row-left">
+        <div class="a-icon-box bg-medium">⚠️</div>
+        <div>
+          <div class="alert-row-title">CO₂ — Salon</div>
+          <div class="alert-row-meta">Il y a 3 jours · 19:05 · 980 ppm · Proche du seuil</div>
+        </div>
+      </div>
+      <div class="alert-row-right">
+        <span class="row-status resolved">Résolue</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-label">Seuils de notification</div>
+  <div class="thresholds-list">
+    <div class="thresh-card">
+      <div class="thresh-icon">💨</div>
+      <div class="thresh-body">
+        <div class="thresh-name">CO₂</div>
+        <div class="thresh-sub">Recommandation OMS : &lt; 1000 ppm</div>
+      </div>
+      <div class="thresh-right">
+        <div class="thresh-val">Alerte à <span id="v-co2">1000</span> ppm</div>
+        <input type="range" min="600" max="2000" value="1000" step="50" oninput="document.getElementById('v-co2').textContent=this.value">
+      </div>
+    </div>
+    <div class="thresh-card">
+      <div class="thresh-icon">🌫️</div>
+      <div class="thresh-body">
+        <div class="thresh-name">PM2.5</div>
+        <div class="thresh-sub">Recommandation OMS : ≤ 5 µg/m³</div>
+      </div>
+      <div class="thresh-right">
+        <div class="thresh-val">Alerte à <span id="v-pm25">5</span> µg/m³</div>
+        <input type="range" min="2" max="25" value="5" step="0.5" oninput="document.getElementById('v-pm25').textContent=this.value">
+      </div>
+    </div>
+    <div class="thresh-card">
+      <div class="thresh-icon">💧</div>
+      <div class="thresh-body">
+        <div class="thresh-name">Humidité</div>
+        <div class="thresh-sub">Recommandé : 40% – 60%</div>
+      </div>
+      <div class="thresh-right">
+        <div class="thresh-val">Alerte à <span id="v-hum">65</span>%</div>
+        <input type="range" min="50" max="90" value="65" step="1" oninput="document.getElementById('v-hum').textContent=this.value">
+      </div>
+    </div>
+    <div class="thresh-card">
+      <div class="thresh-icon">🌡️</div>
+      <div class="thresh-body">
+        <div class="thresh-name">Température</div>
+        <div class="thresh-sub">Confort idéal : 19–23°C</div>
+      </div>
+      <div class="thresh-right">
+        <div class="thresh-val">Alerte à <span id="v-temp">26</span>°C</div>
+        <input type="range" min="22" max="35" value="26" step="0.5" oninput="document.getElementById('v-temp').textContent=this.value">
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top:32px;">Canaux de notification</div>
+  <div class="notif-channels">
+    <div class="nc-row">
+      <div class="nc-left">
+        <div class="nc-icon">📱</div>
+        <div><div class="nc-title">Notification push</div><div class="nc-desc">Alerte instantanée sur l'application mobile</div></div>
+      </div>
+      <div class="toggle on" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+    </div>
+    <div class="nc-row">
+      <div class="nc-left">
+        <div class="nc-icon">📧</div>
+        <div><div class="nc-title">Email</div><div class="nc-desc">marie.dubois@email.com · En cas de dépassement critique</div></div>
+      </div>
+      <div class="toggle" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+    </div>
+    <div class="nc-row">
+      <div class="nc-left">
+        <div class="nc-icon">💬</div>
+        <div><div class="nc-title">SMS</div><div class="nc-desc">+33 6 12 34 56 78 · Alertes critiques uniquement</div></div>
+      </div>
+      <div class="toggle on" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+    </div>
+    <div class="nc-row">
+      <div class="nc-left">
+        <div class="nc-icon">📊</div>
+        <div><div class="nc-title">Rapport hebdomadaire</div><div class="nc-desc">Résumé chaque lundi matin</div></div>
+      </div>
+      <div class="toggle on" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+    </div>
+  </div>
+
+</div><!-- /alerts -->
+
+
+<!-- ══════════════════════════════════════
+     TAB — PARAMÈTRES
+══════════════════════════════════════ -->
+<div class="tab-content" id="tab-settings">
+  <div class="page-header">
+    <h1 class="page-title">Paramètres</h1>
+  </div>
+
+  <div class="settings-layout">
+
+    <!-- Profil -->
+    <div class="settings-section">
+      <div class="settings-section-title">Profil</div>
+      <div class="settings-card">
+        <div class="profile-block">
+          <div class="profile-ava">M</div>
+          <div class="profile-info">
+            <div class="profile-name">Marie Dubois</div>
+            <div class="profile-email">marie.dubois@email.com</div>
+          </div>
+          <div class="profile-plan">SafeHome Pro</div>
+          <button class="btn-outline">Modifier</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Affichage -->
+    <div class="settings-section">
+      <div class="settings-section-title">Affichage</div>
+      <div class="settings-card">
+        <div class="setting-row">
+          <div><div class="setting-row-title">Mode sombre</div><div class="setting-row-desc">Thème adapté aux ambiances tamisées</div></div>
+          <div class="toggle" id="dark-toggle-settings" onclick="toggleDark()"><div class="toggle-knob"></div></div>
+        </div>
+        <div class="setting-row">
+          <div><div class="setting-row-title">Unités de mesure</div><div class="setting-row-desc">Système métrique ou impérial</div></div>
+          <select class="setting-select"><option>Métrique (°C, µg/m³, ppm)</option><option>Impérial (°F, µg/ft³)</option></select>
+        </div>
+        <div class="setting-row">
+          <div><div class="setting-row-title">Langue</div><div class="setting-row-desc">Interface de l'application</div></div>
+          <select class="setting-select"><option>Français</option><option>English</option><option>Español</option></select>
+        </div>
+        <div class="setting-row">
+          <div><div class="setting-row-title">Actualisation automatique</div><div class="setting-row-desc">Rafraîchir les données toutes les 30s</div></div>
+          <div class="toggle on" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Capteurs -->
+    <div class="settings-section">
+      <div class="settings-section-title">Capteurs</div>
+      <div class="settings-card">
+        <div class="device-row">
+          <div class="device-dot online"></div>
+          <div class="device-info">
+            <div class="device-name">🛏️ Chambre · SH-001</div>
+            <div class="device-sub">Connecté · Firmware v2.4.1 · Wi-Fi -62 dBm</div>
+          </div>
+          <div class="device-right">
+            <div class="batt-wrap">
+              <div class="batt-bar"><div class="batt-fill hi" style="width:82%"></div></div>
+              <span>82%</span>
+            </div>
+            <button class="btn-sm">Configurer</button>
+          </div>
+        </div>
+        <div class="device-row">
+          <div class="device-dot alert"></div>
+          <div class="device-info">
+            <div class="device-name">💻 Bureau · SH-002</div>
+            <div class="device-sub">Connecté · Alerte CO₂ active · Wi-Fi -58 dBm</div>
+          </div>
+          <div class="device-right">
+            <div class="batt-wrap">
+              <div class="batt-bar"><div class="batt-fill mid" style="width:67%"></div></div>
+              <span>67%</span>
+            </div>
+            <button class="btn-sm">Configurer</button>
+          </div>
+        </div>
+        <div class="device-row">
+          <div class="device-dot online"></div>
+          <div class="device-info">
+            <div class="device-name">🛋️ Salon · SH-003</div>
+            <div class="device-sub">Connecté · Batterie faible · Wi-Fi -70 dBm</div>
+          </div>
+          <div class="device-right">
+            <div class="batt-wrap">
+              <div class="batt-bar"><div class="batt-fill low" style="width:41%"></div></div>
+              <span>41%</span>
+            </div>
+            <button class="btn-sm">Configurer</button>
+          </div>
+        </div>
+        <button class="btn-add-sensor">+ Ajouter un nouveau capteur</button>
+      </div>
+    </div>
+
+    <!-- Données & Confidentialité -->
+    <div class="settings-section">
+      <div class="settings-section-title">Données & Confidentialité</div>
+      <div class="settings-card">
+        <div class="setting-row">
+          <div><div class="setting-row-title">Rétention des données</div><div class="setting-row-desc">Durée de conservation de l'historique</div></div>
+          <select class="setting-select"><option>12 mois</option><option>6 mois</option><option>3 mois</option><option>30 jours</option></select>
+        </div>
+        <div class="setting-row">
+          <div><div class="setting-row-title">Partage anonymisé</div><div class="setting-row-desc">Contribuer aux statistiques anonymes de qualité de l'air</div></div>
+          <div class="toggle on" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+        </div>
+        <div class="setting-row">
+          <div><div class="setting-row-title">Sauvegarde cloud</div><div class="setting-row-desc">Synchroniser les données avec le cloud SafeHome</div></div>
+          <div class="toggle on" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Compte -->
+    <div class="settings-section">
+      <div class="settings-section-title">Compte</div>
+      <div class="settings-card">
+        <div class="setting-row">
+          <div class="setting-row-title">Plan actuel</div>
+          <span class="profile-plan">SafeHome Pro</span>
+        </div>
+        <div class="setting-row">
+          <div class="setting-row-title">Version application</div>
+          <span class="version-badge">v3.2.0</span>
+        </div>
+        <div class="setting-row">
+          <div class="setting-row-title">Version firmware capteurs</div>
+          <span class="version-badge">v2.4.1</span>
+        </div>
+        <button class="btn-danger" onclick="logOut()">Se déconnecter</button>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /settings -->
+
+</main>
+
+<!-- ══ MODAL ══ -->
+<div class="modal-overlay" id="modal" onclick="closeModalOverlay(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-icon" id="m-icon"></div>
+    <div class="modal-title" id="m-title"></div>
+    <div class="modal-body" id="m-body"></div>
+    <div class="modal-info" id="m-info"></div>
+  </div>
+</div>
+
+</div><!-- /app-wrapper -->
+
+<script src="auth.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
